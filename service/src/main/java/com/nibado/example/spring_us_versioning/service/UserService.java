@@ -25,6 +25,6 @@ public class UserService {
     @PostConstruct
     public void init() {
         add(new User(0, "Jack", "Johnson", "jack@example.com"));
-        add(new User(0, "Jill", "Johnson", "jill@example.com"));
+        add(new User(1, "Jill", "Johnson", "jill@example.com"));
     }
 }

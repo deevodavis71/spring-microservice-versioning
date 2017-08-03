@@ -10,12 +10,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import static java.lang.Integer.parseInt;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ControllerAdvice
 public class AdapterAdvice implements ResponseBodyAdvice<Versioned> {
     private static final String PROTOCOL_VERSION_HEADER = "X-Protocol-Version";
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
+
+        log.info ("Supports? {}", aClass);
+
         for(Class<?> interf : ((Class<?>)methodParameter.getGenericParameterType()).getInterfaces()) {
             if(interf.equals(Versioned.class)) {
                 return true;
@@ -33,6 +39,8 @@ public class AdapterAdvice implements ResponseBodyAdvice<Versioned> {
             Class<? extends HttpMessageConverter<?>> aClass,
             ServerHttpRequest serverHttpRequest,
             ServerHttpResponse serverHttpResponse) {
+
+        log.info ("beforeBodyWrite");
 
         String version = serverHttpRequest.getHeaders().getFirst(PROTOCOL_VERSION_HEADER);
 
